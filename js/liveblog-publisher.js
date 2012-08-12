@@ -41,13 +41,13 @@
 		}
 
 		data[ liveblog_settings.nonce_key ] = liveblog.publisher.$nonce.val();
-		liveblog.publisher.disable_posting_interface();
+		NewEntryForm.disable()
 		liveblog.publisher.show_spinner();
 		liveblog.ajax_request( liveblog_settings.ajaxurl, data, liveblog.publisher.insert_entry_success, liveblog.publisher.insert_entry_error, 'POST' );
 	}
 
 	liveblog.publisher.insert_entry_success = function( response ) {
-		liveblog.publisher.enable_posting_interface();
+		NewEntryForm.enable();
 		liveblog.publisher.hide_spinner();
 		liveblog.publisher.$entry_text.val( '' );
 
@@ -57,7 +57,7 @@
 
 	liveblog.publisher.insert_entry_error = function( response ) {
 		liveblog.add_error( response );
-		liveblog.publisher.enable_posting_interface();
+		NewEntryForm.enable();
 		liveblog.publisher.hide_spinner();
 	}
 
@@ -69,20 +69,10 @@
 			entry_content: ''
 		}
 		data[ liveblog_settings.nonce_key ] = liveblog.publisher.$nonce.val();
-		liveblog.publisher.disable_posting_interface();
+		NewEntryForm.disable();
 		liveblog.publisher.show_spinner();
 		liveblog.ajax_request( liveblog_settings.ajaxurl, data, liveblog.publisher.insert_entry_success, liveblog.publisher.insert_entry_error, 'POST' );
  	}
-
-	liveblog.publisher.disable_posting_interface = function() {
-		liveblog.publisher.$entry_button.attr( 'disabled', 'disabled' );
-		liveblog.publisher.$entry_text.attr( 'disabled', 'disabled' );
-	}
-
-	liveblog.publisher.enable_posting_interface = function() {
-		liveblog.publisher.$entry_button.attr( 'disabled', null );
-		liveblog.publisher.$entry_text.attr( 'disabled', null );
-	}
 
 	liveblog.publisher.show_spinner = function() {
 		liveblog.publisher.$spinner.spin( 'small' );
@@ -97,10 +87,22 @@
 		events: {
 			"click #liveblog-form-entry-submit": "submit",
 		},
+		initialize: function(options) {
+			this.$text = this.$('textarea#liveblog-form-entry');
+			this.$submit = this.$('input#liveblog-form-entry-submit');
+		},
 		submit: function( e ) {
 			e.preventDefault();
 			liveblog.publisher.insert_entry();
-  		}
+  		},
+		disable: function() {
+			this.$text.attr( 'disabled', 'disabled' );
+			this.$submit.attr( 'disabled', 'disabled' );
+  		},
+		enable: function() {
+			this.$text.attr( 'disabled', null );
+			this.$submit.attr( 'disabled', null );
+  		},
 	});
 
 	window.NewEntryForm = new window.NewEntryFormView({el: $('#liveblog-new-entry')});
