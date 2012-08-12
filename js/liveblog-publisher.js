@@ -13,13 +13,7 @@
 		liveblog.publisher.$nonce        = $( '#liveblog_nonce'             );
 		liveblog.publisher.$spinner      = $( '#liveblog-submit-spinner'    );
 
-		liveblog.publisher.$entry_button.click( liveblog.publisher.submit_click );
 		$( '.liveblog-entry-delete' ).click( liveblog.publisher.delete_click );
-	}
-
-	liveblog.publisher.submit_click = function( e ) {
-		e.preventDefault();
-		liveblog.publisher.insert_entry();
 	}
 
 	liveblog.publisher.delete_click = function( e ) {
@@ -97,6 +91,19 @@
 	liveblog.publisher.hide_spinner = function() {
 		liveblog.publisher.$spinner.spin( false );
 	}
+
+
+	window.NewEntryFormView = Backbone.View.extend({
+		events: {
+			"click #liveblog-form-entry-submit": "submit",
+		},
+		submit: function( e ) {
+			e.preventDefault();
+			liveblog.publisher.insert_entry();
+  		}
+	});
+
+	window.NewEntryForm = new window.NewEntryFormView({el: $('#liveblog-new-entry')});
 
 	$( document ).ready( liveblog.publisher.init );
 } )( jQuery );
