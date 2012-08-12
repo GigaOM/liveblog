@@ -1,4 +1,4 @@
-<fieldset id="liveblog-actions">
+<fieldset id="liveblog-new-entry">
 	<legend><?php _e( "You're Live!", 'liveblog' ); ?></legend>
 	<textarea placeholder="<?php esc_attr_e( "Remember: keep it short! To insert an image, drag and drop it here.", 'liveblog' ); ?>" id="liveblog-form-entry" name="liveblog-form-entry" cols="50" rows="5"></textarea>
 	<div class="liveblog-submit-wrapper">
